@@ -12,6 +12,7 @@ class sector:
 		self.min = min
 		self.max = max
 		self.index = index
+		self.inhibitants = []
 		#print ("sector: ")
 		#print (self.position)
 		#print(self.min, self.max)
