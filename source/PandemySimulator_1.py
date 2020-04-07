@@ -7,9 +7,10 @@ import time
 from pawn import *
 from sector import *
 from playground import *
+from DrawSim import *
 
 #the simulation space
-simSpace = playground(4)
+simSpace = playground(8)
 
 #the set of people
 pawnSet = []
@@ -39,6 +40,7 @@ print(loopCount)
 
 def mainloop():
 	print("a day passes")
+	global loopCount
 	#_ = system('cls')
 	for pawn in pawnSet:
 		pawn.changeLocation()
@@ -46,8 +48,8 @@ def mainloop():
 		#pawn.debugStatus()
 		if pawn.isInfectedPawnInRadius(10):
 			pawn.becomeInfected()
+	drawAllPawns(pawnSet, loopCount)
 	time.sleep(0.1)
-	global loopCount
 	loopCount = loopCount + 1
 	if loopCount < simTime:
 		mainloop()

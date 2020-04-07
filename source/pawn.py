@@ -10,8 +10,8 @@ class pawn:
         self.pos = Loc(random.uniform(0, 100), random.uniform(0, 100))
         self.status = healthStatus.HEALTHY
     def changeLocation(self):
-        self.pos.x = np.clip(self.pos.x + random.uniform(-10, 10), 0, 100)
-        self.pos.y = np.clip(self.pos.y + random.uniform(-10, 10), 0, 100)
+        self.pos.x = np.clip(self.pos.x + random.uniform(-2, 2), 0, 100)
+        self.pos.y = np.clip(self.pos.y + random.uniform(-2, 2), 0, 100)
     def debugPos(self):
         print("pos", str(int(self.pos.x)), ";", str(int(self.pos.y)))
     def attributeSector(self, sector):
