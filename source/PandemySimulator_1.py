@@ -41,6 +41,7 @@ print(loopCount)
 def mainloop():
 	print("a day passes")
 	global loopCount
+	drawAllPawns(pawnSet, loopCount)
 	#_ = system('cls')
 	for pawn in pawnSet:
 		pawn.changeLocation()
@@ -48,7 +49,6 @@ def mainloop():
 		#pawn.debugStatus()
 		if pawn.isInfectedPawnInRadius(10):
 			pawn.becomeInfected()
-	drawAllPawns(pawnSet, loopCount)
 	time.sleep(0.1)
 	loopCount = loopCount + 1
 	if loopCount < simTime:
