@@ -37,12 +37,12 @@ class playground:
 	def attributeSector(self, pawn):
 		i = 100/self.subdivisions
 		pawncolumn = 0
-		while i <= pawn.pos.x:
+		while i < pawn.pos.x:
 			pawncolumn += 1
 			i = i + (100/self.subdivisions)
 		i = 100/self.subdivisions
 		pawnrow = 0
-		while i <= pawn.pos.y:
+		while i < pawn.pos.y:
 			pawnrow += 1
 			i = i + (100/self.subdivisions)
 		pawnSectorIndex = (pawnrow*(self.subdivisions)) + pawncolumn

@@ -8,6 +8,7 @@ from pawn import *
 from sector import *
 from playground import *
 from DrawSim import *
+from virus import *
 
 #the simulation space
 simSpace = playground(8)
@@ -15,8 +16,12 @@ simSpace = playground(8)
 #the set of people
 pawnSet = []
 
+#Create a new virus
+virus = virus(float(input("virus infection radius: ")))
+
 #define population size
 population = int(input("population size: "))
+avgDailyPawnMovement = float(input("Average daily pawn movement: "))
 
 #initialize population
 for i in range(0, population):
@@ -39,17 +44,20 @@ loopCount = 0
 print(loopCount)
 
 def mainloop():
-	print("a day passes")
 	global loopCount
+	print("day : ", loopCount)
 	drawAllPawns(pawnSet, loopCount)
 	#_ = system('cls')
+	pawnsToInfect = []
 	for pawn in pawnSet:
-		pawn.changeLocation()
-		#pawn.debugPos()
-		#pawn.debugStatus()
-		if pawn.isInfectedPawnInRadius(10):
-			pawn.becomeInfected()
-	time.sleep(0.1)
+		if pawn.isInfectedPawnInRadius(virus.InfectionRadius):
+			pawnsToInfect.append(pawn)
+	for pawn in pawnsToInfect:
+		pawn.becomeInfected()
+	for pawn in pawnSet:
+		pawn.changeLocation(avgDailyPawnMovement)
+		simSpace.attributeSector(pawn)
+	#time.sleep(0.1)
 	loopCount = loopCount + 1
 	if loopCount < simTime:
 		mainloop()
