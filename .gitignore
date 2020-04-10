@@ -9,6 +9,8 @@ __pycache__/
 #images folder
 imgs/
 
+.vscode/
+
 # Distribution / packaging
 .Python
 build/
