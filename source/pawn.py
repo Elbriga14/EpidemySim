@@ -1,8 +1,9 @@
 import numpy as np
 import random
 from datatypes import *
+from population import *
 
-class pawn:
+class pawn():
     pos = Loc(0, 0)
     parentSector = 0
     status = healthStatus.HEALTHY
@@ -20,8 +21,11 @@ class pawn:
                 self.parentSector.removeInhibitant(self)
             self.parentSector = sector
             self.parentSector.addInhibitant(self)
-    def becomeInfected(self):
-        self.status = healthStatus.INFECTED
+    def becomeInfected(self, population):
+        if self.status != healthStatus.INFECTED :
+            self.status = healthStatus.INFECTED
+            population.healthyPawnSet.remove(self)
+            population.infectedPawnSet.append(self)
     def debugStatus(self):
         print(str(self.status))
     def getPawnsInRadius(self, radius):

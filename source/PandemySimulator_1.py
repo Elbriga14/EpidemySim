@@ -4,11 +4,13 @@ import numpy
 import asyncio
 import time
 #from datatypes import *
+from population import *
 from pawn import *
 from sector import *
 from playground import *
 from DrawSim import *
 from virus import *
+
 
 #the simulation space
 simSpace = playground(8)
@@ -16,24 +18,28 @@ simSpace = playground(8)
 #the set of people
 pawnSet = []
 
+pop = population(simSpace, 100, 10, 2)
+pop.debugPopulation()
+
+
 #Create a new virus
 virus = virus(float(input("virus infection radius: ")))
 
 #define population size
-population = int(input("population size: "))
-avgDailyPawnMovement = float(input("Average daily pawn movement: "))
+# population = int(input("population size: "))
+# avgDailyPawnMovement = float(input("Average daily pawn movement: "))
 
 #initialize population
-for i in range(0, population):
-	pawnSet.append(pawn())
-	#pawnSet[i].debugPos()
-	simSpace.attributeSector(pawnSet[i])
-#initialize infected population
-baseInfected = int(input("infected people amount: "))
-if baseInfected > population:
-	baseInfected = population
-for i in range (0, baseInfected):
-	pawnSet[i].becomeInfected()
+# for i in range(0, population):
+# 	pawnSet.append(pawn())
+# 	#pawnSet[i].debugPos()
+# 	simSpace.attributeSector(pawnSet[i])
+# #initialize infected population
+# baseInfected = int(input("infected people amount: "))
+# if baseInfected > population:
+# 	baseInfected = population
+# for i in range (0, baseInfected):
+# 	pawnSet[i].becomeInfected(pop)
 
 #for sector in playground.sectors:
 #	sector.debugSector()
@@ -46,17 +52,18 @@ print(loopCount)
 def mainloop():
 	global loopCount
 	print("day : ", loopCount)
-	drawAllPawns(pawnSet, loopCount)
+	drawAllPawns(pop.pawnSet, loopCount)
 	#_ = system('cls')
 	pawnsToInfect = []
-	for pawn in pawnSet:
+	for pawn in pop.pawnSet:
 		if pawn.isInfectedPawnInRadius(virus.InfectionRadius):
 			pawnsToInfect.append(pawn)
 	for pawn in pawnsToInfect:
-		pawn.becomeInfected()
-	for pawn in pawnSet:
-		pawn.changeLocation(avgDailyPawnMovement)
-		simSpace.attributeSector(pawn)
+		pawn.becomeInfected(pop)
+	pop.moveAllPawns()
+	# for pawn in pawnSet:
+	# 	pawn.changeLocation(avgDailyPawnMovement)
+	# 	simSpace.attributeSector(pawn)
 	#time.sleep(0.1)
 	loopCount = loopCount + 1
 	if loopCount < simTime:
