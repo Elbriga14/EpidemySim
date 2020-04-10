@@ -11,35 +11,19 @@ from playground import *
 from DrawSim import *
 from virus import *
 
+daysElapsed = []
+infectedValues = []
+healthyValues = []
 
 #the simulation space
 simSpace = playground(8)
 
-#the set of people
-pawnSet = []
-
-pop = population(simSpace, 100, 10, 2)
-pop.debugPopulation()
-
+#initialize population
+pop = population(simSpace, int(input("population size: ")), int(input("infected: ")), int(input("average movement: ")))
+#pop.debugPopulation()
 
 #Create a new virus
 virus = virus(float(input("virus infection radius: ")))
-
-#define population size
-# population = int(input("population size: "))
-# avgDailyPawnMovement = float(input("Average daily pawn movement: "))
-
-#initialize population
-# for i in range(0, population):
-# 	pawnSet.append(pawn())
-# 	#pawnSet[i].debugPos()
-# 	simSpace.attributeSector(pawnSet[i])
-# #initialize infected population
-# baseInfected = int(input("infected people amount: "))
-# if baseInfected > population:
-# 	baseInfected = population
-# for i in range (0, baseInfected):
-# 	pawnSet[i].becomeInfected(pop)
 
 #for sector in playground.sectors:
 #	sector.debugSector()
@@ -52,7 +36,10 @@ print(loopCount)
 def mainloop():
 	global loopCount
 	print("day : ", loopCount)
-	drawAllPawns(pop.pawnSet, loopCount)
+	print("infected: ", len(pop.infectedPawnSet))
+	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
+	#drawAllPawns(pop.pawnSet, loopCount)
+	#drawSimStatistics(pop, loopCount)
 	#_ = system('cls')
 	pawnsToInfect = []
 	for pawn in pop.pawnSet:
@@ -61,25 +48,20 @@ def mainloop():
 	for pawn in pawnsToInfect:
 		pawn.becomeInfected(pop)
 	pop.moveAllPawns()
-	# for pawn in pawnSet:
-	# 	pawn.changeLocation(avgDailyPawnMovement)
-	# 	simSpace.attributeSector(pawn)
-	#time.sleep(0.1)
+	daysElapsed.append(loopCount)
+	infectedValues.append(len(pop.infectedPawnSet))
+	healthyValues.append(len(pop.healthyPawnSet))
 	loopCount = loopCount + 1
 	if loopCount < simTime:
 		mainloop()
 	else:
-		totalInfected = 0
-		for pawn in pawnSet:
-			if pawn.status == healthStatus.INFECTED or pawn.status == healthStatus.SICK:
-				totalInfected += 1
-		print("Start population infected:       ", str(baseInfected))
+		drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
+		totalInfected = len(pop.infectedPawnSet)
+		print("Start population infected:       ", str(pop.startInfected))
 		print("Final population infected:       ", str(totalInfected))
-		print("Start population infected ratio: ", str(round((100*(baseInfected/population)), 1)), "%")
-		print("Final infected ratio:            ", str(round((100*(totalInfected/population)), 1)), "%")
+		print("Start population infected ratio: ", str(round((100*(pop.startInfected/pop.size)), 1)), "%")
+		print("Final infected ratio:            ", str(round((100*(totalInfected/pop.size)), 1)), "%")
 		print("Number of days elapsed:          ", str(simTime), "days")
-		print("Population density:              ", str(round((population/100), 1)), "p/u²")
-
-
+		print("Population density:              ", str(round((pop.size/100), 1)), "p/u²")
 
 mainloop()
