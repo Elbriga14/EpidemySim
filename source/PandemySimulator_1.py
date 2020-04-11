@@ -38,8 +38,7 @@ def mainloop():
 	print("day : ", loopCount)
 	print("infected: ", len(pop.infectedPawnSet))
 	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
-	#drawAllPawns(pop.pawnSet, loopCount)
-	#drawSimStatistics(pop, loopCount)
+	drawAllPawns(loopCount, pop)
 	#_ = system('cls')
 	pawnsToInfect = []
 	for pawn in pop.pawnSet:
