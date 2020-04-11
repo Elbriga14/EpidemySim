@@ -45,9 +45,10 @@ def mainloop():
 	for i in range (int((((loopCount/simTime)*50))), 50):
 		pbarE += "."
 	print(pbarF + pbarE)
+	print("simulating... ", round((loopCount/simTime)*100, 1), "%")
 
-	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
-	drawAllPawns(loopCount, pop)
+	#drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
+	#drawAllPawns(loopCount, pop)
 
 	pawnsToInfect = []
 	for pawn in pop.pawnSet:
