@@ -35,8 +35,8 @@ print(loopCount)
 
 def mainloop():
 	global loopCount
-	print("day : ", loopCount)
-	print("infected: ", len(pop.infectedPawnSet))
+	#print("day : ", loopCount)
+	#print("infected: ", len(pop.infectedPawnSet))
 	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
 	drawAllPawns(loopCount, pop)
 	#_ = system('cls')
@@ -54,7 +54,6 @@ def mainloop():
 	if loopCount < simTime:
 		mainloop()
 	else:
-		drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
 		totalInfected = len(pop.infectedPawnSet)
 		print("Start population infected:       ", str(pop.startInfected))
 		print("Final population infected:       ", str(totalInfected))
