@@ -1,0 +1,2 @@
+refactor pawn random movement. 
+Chose a random destination in grid and go there rather than moving randomly

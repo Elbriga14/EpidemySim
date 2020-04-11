@@ -10,6 +10,9 @@ def drawAllPawns(index, population):
 	plot.axis([0, 100, 0, 100])
 	ax = plot.subplot()
 	ax.set_aspect('equal')
+	#ax.set_facecolor("black")
+	ax.patch.set_facecolor("#0c0f32")
+	plot.rcParams['figure.facecolor'] = 'black'
 	healthyPawnsX = []
 	healthyPanwsY = []
 	infectedPawnX = []
@@ -20,9 +23,9 @@ def drawAllPawns(index, population):
 	for pawn in population.infectedPawnSet:
 		infectedPawnX.append(pawn.pos.x)
 		infectedPawnY.append(pawn.pos.y)
-	ax.scatter(healthyPawnsX, healthyPanwsY, 50, "black")
-	ax.scatter(infectedPawnX, infectedPawnY, 50, "red")
-	plot.savefig(path)
+	ax.scatter(healthyPawnsX, healthyPanwsY, 50, "#25447a")
+	ax.scatter(infectedPawnX, infectedPawnY, 50, "#c47761")
+	plot.savefig(path, facecolor="#25447a")
 	plot.cla()
 
 def drawSimStatistics(index, totalTime, totalPopulation, infectedValues, healthyValues):
