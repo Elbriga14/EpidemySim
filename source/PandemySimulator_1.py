@@ -35,11 +35,20 @@ print(loopCount)
 
 def mainloop():
 	global loopCount
-	#print("day : ", loopCount)
-	#print("infected: ", len(pop.infectedPawnSet))
+
+	#PROGRESS BAR
+	_ = system('cls')
+	pbarF = ""
+	pbarE = ""
+	for i in range (0, int((((loopCount/simTime)*50)))):
+		pbarF += "|"
+	for i in range (int((((loopCount/simTime)*50))), 50):
+		pbarE += "."
+	print(pbarF + pbarE)
+
 	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
 	drawAllPawns(loopCount, pop)
-	#_ = system('cls')
+
 	pawnsToInfect = []
 	for pawn in pop.pawnSet:
 		if pawn.isInfectedPawnInRadius(virus.InfectionRadius):
@@ -54,6 +63,7 @@ def mainloop():
 	if loopCount < simTime:
 		mainloop()
 	else:
+		_ = system('cls')
 		totalInfected = len(pop.infectedPawnSet)
 		print("Start population infected:       ", str(pop.startInfected))
 		print("Final population infected:       ", str(totalInfected))
