@@ -23,7 +23,7 @@ pop = population(simSpace, int(input("population size: ")), int(input("infected:
 #pop.debugPopulation()
 
 #Create a new virus
-virus = virus(float(input("virus infection radius: ")))
+virus = virus(float(input("virus infection radius: ")), float(input("virus infection chance: ")))
 
 #for sector in playground.sectors:
 #	sector.debugSector()
@@ -36,26 +36,27 @@ print(loopCount)
 def mainloop():
 	global loopCount
 
-	#PROGRESS BAR
-	_ = system('cls')
-	pbarF = ""
-	pbarE = ""
-	for i in range (0, int((((loopCount/simTime)*50)))):
-		pbarF += "|"
-	for i in range (int((((loopCount/simTime)*50))), 50):
-		pbarE += "."
-	print(pbarF + pbarE)
-	print("simulating... ", round((loopCount/simTime)*100, 1), "%")
+	# #PROGRESS BAR
+	# _ = system('cls')
+	# pbarF = ""
+	# pbarE = ""
+	# for i in range (0, int((((loopCount/simTime)*50)))):
+	# 	pbarF += "|"
+	# for i in range (int((((loopCount/simTime)*50))), 50):
+	# 	pbarE += "."
+	# print(pbarF + pbarE)
+	# print("simulating... ", round((loopCount/simTime)*100, 1), "%")
 
-	#drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
-	#drawAllPawns(loopCount, pop)
+	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
+	drawAllPawns(loopCount, pop)
 
-	pawnsToInfect = []
-	for pawn in pop.pawnSet:
-		if pawn.isInfectedPawnInRadius(virus.InfectionRadius):
-			pawnsToInfect.append(pawn)
-	for pawn in pawnsToInfect:
-		pawn.becomeInfected(pop)
+	# pawnsToInfect = []
+	# for pawn in pop.pawnSet:
+	# 	if pawn.isInfectedPawnInRadius(virus.InfectionRadius):
+	# 		pawnsToInfect.append(pawn)
+	# for pawn in pawnsToInfect:
+	# 	pawn.becomeInfected(pop)
+	pop.updatePawnInfected(virus)
 	pop.moveAllPawns()
 	daysElapsed.append(loopCount)
 	infectedValues.append(len(pop.infectedPawnSet))
@@ -64,7 +65,7 @@ def mainloop():
 	if loopCount < simTime:
 		mainloop()
 	else:
-		_ = system('cls')
+		#_ = system('cls')
 		totalInfected = len(pop.infectedPawnSet)
 		print("Start population infected:       ", str(pop.startInfected))
 		print("Final population infected:       ", str(totalInfected))

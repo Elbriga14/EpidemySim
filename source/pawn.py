@@ -26,6 +26,7 @@ class pawn():
             self.status = healthStatus.INFECTED
             population.healthyPawnSet.remove(self)
             population.infectedPawnSet.append(self)
+
     def debugStatus(self):
         print(str(self.status))
     def getPawnsInRadius(self, radius):
@@ -45,6 +46,15 @@ class pawn():
                 pawnsInRadius.append(pawn)
         #print("pawns in radius: ", len(pawnsInRadius))
         return pawnsInRadius
+
+    def getInfectedPawnsInRadius(self, radius):
+        infPawnsInRad = []
+        for pawn in self.getPawnsInRadius(radius):
+            if pawn.status == healthStatus.INFECTED or pawn.status == healthStatus.SICK:
+                infPawnsInRad.append(pawn)
+        return infPawnsInRad
+
+
 
     def isInfectedPawnInRadius(self, radius):
         for pawn in self.getPawnsInRadius(radius):
