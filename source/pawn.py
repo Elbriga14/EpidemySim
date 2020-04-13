@@ -9,6 +9,7 @@ class pawn():
     status = healthStatus.HEALTHY
     def __init__(self):
         self.pos = Loc(random.uniform(0, 100), random.uniform(0, 100))
+        self.targetPoint = Loc(random.uniform(0,100), random.uniform(0,100))
         self.status = healthStatus.HEALTHY
     def changeLocation(self, averageAmount):
         self.pos.x = np.clip(self.pos.x + random.uniform(-averageAmount, averageAmount), 0, 100)

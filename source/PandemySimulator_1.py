@@ -36,16 +36,16 @@ print(loopCount)
 def mainloop():
 	global loopCount
 
-	# #PROGRESS BAR
-	# _ = system('cls')
-	# pbarF = ""
-	# pbarE = ""
-	# for i in range (0, int((((loopCount/simTime)*50)))):
-	# 	pbarF += "|"
-	# for i in range (int((((loopCount/simTime)*50))), 50):
-	# 	pbarE += "."
-	# print(pbarF + pbarE)
-	# print("simulating... ", round((loopCount/simTime)*100, 1), "%")
+	#PROGRESS BAR
+	_ = system('cls')
+	pbarF = ""
+	pbarE = ""
+	for i in range (0, int((((loopCount/simTime)*50)))):
+	 	pbarF += "|"
+	for i in range (int((((loopCount/simTime)*50))), 50):
+		pbarE += "."
+	print(pbarF + pbarE)
+	print("simulating... ", round((loopCount/simTime)*100, 1), "%")
 
 	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
 	drawAllPawns(loopCount, pop)
