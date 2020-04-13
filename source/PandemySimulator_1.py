@@ -33,10 +33,7 @@ simTime = int(input("steps to simulate: "))
 loopCount = 0
 print(loopCount)
 
-def mainloop():
-	global loopCount
-
-	#PROGRESS BAR
+def printProgressBar():
 	_ = system('cls')
 	pbarF = ""
 	pbarE = ""
@@ -47,17 +44,18 @@ def mainloop():
 	print(pbarF + pbarE)
 	print("simulating... ", round((loopCount/simTime)*100, 1), "%")
 
+def drawGraphs():
 	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues)
 	drawAllPawns(loopCount, pop)
 
-	# pawnsToInfect = []
-	# for pawn in pop.pawnSet:
-	# 	if pawn.isInfectedPawnInRadius(virus.InfectionRadius):
-	# 		pawnsToInfect.append(pawn)
-	# for pawn in pawnsToInfect:
-	# 	pawn.becomeInfected(pop)
-	pop.updatePawnInfected(virus)
-	pop.moveAllPawns()
+def mainloop():
+	global loopCount
+
+	printProgressBar()
+	#drawGraphs()
+	pop.tick(virus)
+
+	#keep track of values
 	daysElapsed.append(loopCount)
 	infectedValues.append(len(pop.infectedPawnSet))
 	healthyValues.append(len(pop.healthyPawnSet))
@@ -65,13 +63,14 @@ def mainloop():
 	if loopCount < simTime:
 		mainloop()
 	else:
-		#_ = system('cls')
+		printProgressBar()
 		totalInfected = len(pop.infectedPawnSet)
-		print("Start population infected:       ", str(pop.startInfected))
-		print("Final population infected:       ", str(totalInfected))
-		print("Start population infected ratio: ", str(round((100*(pop.startInfected/pop.size)), 1)), "%")
-		print("Final infected ratio:            ", str(round((100*(totalInfected/pop.size)), 1)), "%")
-		print("Number of days elapsed:          ", str(simTime), "days")
-		print("Population density:              ", str(round((pop.size/100), 1)), "p/u²")
+		print("[P] Start population infected:       ", str(pop.startInfected))
+		print("[P] Final population infected:       ", str(totalInfected))
+		print("[P] Start population infected ratio: ", str(round((100*(pop.startInfected/pop.size)), 1)), "%")
+		print("[P] Final infected ratio:            ", str(round((100*(totalInfected/pop.size)), 1)), "%")
+		print("[P] Population density:              ", str(round((pop.size/100), 1)), "p/u²")
+		print("[t] Number of days elapsed:          ", str(simTime), "days")
+		print(virus)
 
 mainloop()

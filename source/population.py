@@ -35,6 +35,10 @@ class population():
 		for pawn in pawnsToInfect:
 			pawn.becomeInfected(self)
 
+	def tick(self, virus):
+		self.updatePawnInfected(virus)
+		self.moveAllPawns()
+
 	def debugPopulation(self):
 		print("population size: ", len(self.pawnSet))
 		print("healthy population: ", len(self.healthyPawnSet))
