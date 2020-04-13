@@ -7,6 +7,7 @@ class pawn():
     pos = Loc(0, 0)
     parentSector = 0
     status = healthStatus.HEALTHY
+    infectionProgress = 0
     def __init__(self, speed):
         self.pos = Loc(random.uniform(0, 100), random.uniform(0, 100))
         self.targetPoint = Loc(random.uniform(0,100), random.uniform(0,100))
@@ -19,24 +20,37 @@ class pawn():
         if abs(self.targetPoint - self.pos) < 2:
             self.targetPoint = Loc(random.uniform(0, 100), random.uniform(0, 100))
 
-
+    def tick(self, virus, population):
+        if self.status == healthStatus.INFECTED:
+            self.infectionProgress += virus.infectionToDiseaseSpeed
+        if self.infectionProgress > 1:
+            self.becomeSick(population)
 
     def debugPos(self):
         print("pos", str(int(self.pos.x)), ";", str(int(self.pos.y)))
+
     def attributeSector(self, sector):
         if self.parentSector != sector:
             if self.parentSector != 0:
                 self.parentSector.removeInhibitant(self)
             self.parentSector = sector
             self.parentSector.addInhibitant(self)
+
     def becomeInfected(self, population):
         if self.status != healthStatus.INFECTED :
             self.status = healthStatus.INFECTED
             population.healthyPawnSet.remove(self)
             population.infectedPawnSet.append(self)
+    
+    def becomeSick(self, population):
+        if self.status != healthStatus.SICK:
+            self.status = healthStatus.SICK
+            population.infectedPawnSet.remove(self)
+            population.sickPawnSet.append(self)
 
     def debugStatus(self):
         print(str(self.status))
+
     def getPawnsInRadius(self, radius):
         pawnsToCheck = []
         for sector in self.parentSector.adjacentSectors:
@@ -61,8 +75,6 @@ class pawn():
             if pawn.status == healthStatus.INFECTED or pawn.status == healthStatus.SICK:
                 infPawnsInRad.append(pawn)
         return infPawnsInRad
-
-
 
     def isInfectedPawnInRadius(self, radius):
         for pawn in self.getPawnsInRadius(radius):

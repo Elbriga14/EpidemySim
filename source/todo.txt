@@ -3,3 +3,4 @@ get sick
 recover
 or die
 
+create a time class to keep track of values
