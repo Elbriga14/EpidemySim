@@ -33,3 +33,13 @@ class Loc():
             return Loc((self.x * o.x), (self.y * o.y))
         else:
             print("can only multiply Loc type with Loc, int or float type")
+    def __div__(self, o):
+        if isinstance(o, float) or isinstance(o, int):
+            return Loc((self.x / o), (self.y / o))
+        elif isinstance(o, Loc):
+            return Loc((self.x / o.x), (self.y / o.y))
+        else:
+            print("can only divide Loc type with Loc, int or float type")
+    def norm(self):
+        mag = abs(self)
+        return Loc(self.x/mag, self.y/mag)
