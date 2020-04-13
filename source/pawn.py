@@ -7,13 +7,20 @@ class pawn():
     pos = Loc(0, 0)
     parentSector = 0
     status = healthStatus.HEALTHY
-    def __init__(self):
+    def __init__(self, speed):
         self.pos = Loc(random.uniform(0, 100), random.uniform(0, 100))
         self.targetPoint = Loc(random.uniform(0,100), random.uniform(0,100))
         self.status = healthStatus.HEALTHY
-    def changeLocation(self, averageAmount):
-        self.pos.x = np.clip(self.pos.x + random.uniform(-averageAmount, averageAmount), 0, 100)
-        self.pos.y = np.clip(self.pos.y + random.uniform(-averageAmount, averageAmount), 0, 100)
+        self.speed = speed * random.uniform(0.75, 1.25)
+    def changeLocation(self):
+        direction = self.targetPoint - self.pos
+        movement = (direction.norm()) * (min(0.05*abs(direction), self.speed))
+        self.pos = self.pos + movement
+        if abs(self.targetPoint - self.pos) < 2:
+            self.targetPoint = Loc(random.uniform(0, 100), random.uniform(0, 100))
+
+
+
     def debugPos(self):
         print("pos", str(int(self.pos.x)), ";", str(int(self.pos.y)))
     def attributeSector(self, sector):

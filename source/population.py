@@ -6,12 +6,11 @@ class population():
 	def __init__(self, simSpace, size, startInfected, avgMov):
 		self.simSpace = simSpace
 		self.size = size
-		self.averageMovement = avgMov
 		if startInfected > size:
 			self.startInfected = size
 		else: self.startInfected = startInfected
 		for i in range (0, self.size):
-			self.pawnSet.append(pawn())
+			self.pawnSet.append(pawn(avgMov))
 			self.simSpace.attributeSector(self.pawnSet[i])
 		self.healthyPawnSet = self.pawnSet.copy()
 		for i in range(0, self.startInfected):
@@ -19,7 +18,7 @@ class population():
 
 	def moveAllPawns(self):
 		for pawn in self.pawnSet:
-			pawn.changeLocation(self.averageMovement)
+			pawn.changeLocation()
 			self.simSpace.attributeSector(pawn)
 
 	def updatePawnInfected(self, virus):

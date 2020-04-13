@@ -19,7 +19,7 @@ healthyValues = []
 simSpace = playground(8)
 
 #initialize population
-pop = population(simSpace, int(input("population size: ")), int(input("infected: ")), int(input("average movement: ")))
+pop = population(simSpace, int(input("population size: ")), int(input("infected: ")), float(input("average movement: ")))
 #pop.debugPopulation()
 
 #Create a new virus
