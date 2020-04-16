@@ -8,6 +8,8 @@ class pawn():
     parentSector = 0
     status = healthStatus.HEALTHY
     infectionProgress = 0
+    recoveryProgress = 0
+    inCare = False
     def __init__(self, speed):
         self.pos = Loc(random.uniform(0, 100), random.uniform(0, 100))
         self.targetPoint = Loc(random.uniform(0,100), random.uniform(0,100))
@@ -20,11 +22,22 @@ class pawn():
         if abs(self.targetPoint - self.pos) < 2:
             self.targetPoint = Loc(random.uniform(0, 100), random.uniform(0, 100))
 
-    def tick(self, virus, population):
+    def tick(self, virus, population, simSpace):
         if self.status == healthStatus.INFECTED:
-            self.infectionProgress += virus.infectionToDiseaseSpeed
-        if self.infectionProgress > 1:
-            self.becomeSick(population)
+            self.infectionProgress += 1/virus.daysToSick
+            if self.infectionProgress > 1:
+                self.becomeSick(population)
+        if self.status == healthStatus.SICK:
+            if self.inCare:
+                self.recoveryProgress += 1/virus.daysTillCuredInCare
+            elif simSpace.RemainingCareCapacity > 0:
+                self.inCare = True
+                simSpace.RemainingCareCapacity -= 1
+                self.recoveryProgress += 1/virus.daysTillCuredInCare
+            else:
+                self.recoveryProgress += 1/virus.daysTillCuredNoCare
+            if self.recoveryProgress > 1:
+                self.becomeCured(population, simSpace)
 
     def debugPos(self):
         print("pos", str(int(self.pos.x)), ";", str(int(self.pos.y)))
@@ -37,16 +50,23 @@ class pawn():
             self.parentSector.addInhibitant(self)
 
     def becomeInfected(self, population):
-        if self.status != healthStatus.INFECTED :
+        if self.status == healthStatus.HEALTHY:
             self.status = healthStatus.INFECTED
             population.healthyPawnSet.remove(self)
             population.infectedPawnSet.append(self)
     
     def becomeSick(self, population):
-        if self.status != healthStatus.SICK:
+        if self.status == healthStatus.INFECTED:
             self.status = healthStatus.SICK
             population.infectedPawnSet.remove(self)
             population.sickPawnSet.append(self)
+
+    def becomeCured(self, population, simSpace):
+        if self.status == healthStatus.SICK:
+            self.status = healthStatus.CURED
+            population.sickPawnSet.remove(self)
+            population.curedPawnSet.append(self)
+            simSpace.RemainingCareCapacity += 1
 
     def debugStatus(self):
         print(str(self.status))

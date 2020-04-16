@@ -15,16 +15,17 @@ daysElapsed = []
 infectedValues = []
 healthyValues = []
 sickValues = []
+curedValues = []
 
 #the simulation space
-simSpace = playground(8)
+simSpace = playground(8, int(input("Hospital Care Capacity: ")))
 
 #initialize population
 pop = population(simSpace, int(input("population size: ")), int(input("infected: ")), float(input("average movement: ")))
 #pop.debugPopulation()
 
 #Create a new virus
-virus = virus(float(input("virus infection radius: ")), float(input("virus infection chance: ")), float(input("virus infection to disease speed (0 to 1): ")))
+virus = virus(float(input("virus infection radius: ")), float(input("virus infection chance: ")), float(input("virus days from infection to sickness: ")), int(input("days to cure in care: ")), int(input("days to cure without care: ")))
 
 #for sector in playground.sectors:
 #	sector.debugSector()
@@ -46,26 +47,27 @@ def printProgressBar():
 	print("simulating... ", round((loopCount/simTime)*100, 1), "%")
 
 def drawGraphs():
-	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues, sickValues)
+	drawSimStatistics(loopCount, simTime, pop.size, infectedValues, healthyValues, sickValues, curedValues)
 	drawAllPawns(loopCount, pop)
 
 def mainloop():
 	global loopCount
 
-	printProgressBar()
+	#printProgressBar()
 	drawGraphs()
-	pop.tick(virus)
+	pop.tick(virus, simSpace)
 
 	#keep track of values
 	daysElapsed.append(loopCount)
 	infectedValues.append(len(pop.infectedPawnSet))
 	healthyValues.append(len(pop.healthyPawnSet))
 	sickValues.append(len(pop.sickPawnSet))
+	curedValues.append(len(pop.curedPawnSet))
 	loopCount = loopCount + 1
 	if loopCount < simTime:
 		mainloop()
 	else:
-		printProgressBar()
+		#printProgressBar()
 		totalInfected = len(pop.infectedPawnSet)
 		totalSick = len(pop.sickPawnSet)
 		print("[P] Start population infected:       ", str(pop.startInfected))

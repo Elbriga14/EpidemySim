@@ -3,7 +3,11 @@ from sector import *
 class playground:
 	subdivisions = 0
 	sectors = []
-	def __init__(self, size):
+	CareCapacity = 0
+	RemainingCareCapacity = 0
+	def __init__(self, size, CareCapacity):
+		self.CareCapacity = CareCapacity
+		self.RemainingCareCapacity = self.CareCapacity
 		self.subdivisions = size
 		index = 0
 		for i in range (0, size):

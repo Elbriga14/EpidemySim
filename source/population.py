@@ -1,7 +1,7 @@
 from pawn import *
 
 class population():
-	pawnSet, healthyPawnSet, infectedPawnSet, sickPawnSet = [], [], [], []
+	pawnSet, healthyPawnSet, infectedPawnSet, sickPawnSet, curedPawnSet = [], [], [], [], []
 	
 	def __init__(self, simSpace, size, startInfected, avgMov):
 		self.simSpace = simSpace
@@ -35,11 +35,11 @@ class population():
 		for pawn in pawnsToInfect:
 			pawn.becomeInfected(self)
 
-	def tick(self, virus):
+	def tick(self, virus, simSpace):
 		self.updatePawnInfected(virus)
 		self.moveAllPawns()
 		for pawn in self.pawnSet:
-			pawn.tick(virus, self)
+			pawn.tick(virus, self, simSpace)
 
 	def debugPopulation(self):
 		print("population size: ", len(self.pawnSet))
